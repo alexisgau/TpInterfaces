@@ -1,0 +1,33 @@
+package com.example.tpinterfaces.ui
+
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.example.tpinterfaces.ui.screens.HomeScreen
+import com.example.tpinterfaces.ui.screens.MascotasScreen
+import com.example.tpinterfaces.ui.screens.ProfileScreen
+import com.example.tpinterfaces.ui.screens.ServiciosScreen
+import com.example.tpinterfaces.ui.screens.TurnosScreen
+
+@Composable
+fun AppNavigation(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    NavHost(
+        navController = navController,
+        startDestination = Screen.Inicio,
+        modifier = modifier
+    ) {
+        composable<Screen.Inicio> { HomeScreen() }
+        composable<Screen.Mascotas> { MascotasScreen() }
+        composable<Screen.Turnos> { TurnosScreen() }
+        composable<Screen.Servicios> { ServiciosScreen() }
+
+        composable<Screen.Perfil> { ProfileScreen() }
+    }
+}
+
