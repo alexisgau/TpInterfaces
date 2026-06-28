@@ -108,45 +108,6 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 }
             }
         }
-/*
-        // Card destacada: Toby necesita tránsito
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = FondoCard),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(56.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MoradoSuave),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(Icons.Outlined.Pets, contentDescription = null, tint = Morado, modifier = Modifier.size(28.dp))
-                }
-                Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("Toby necesita tránsito", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                    Text("Edad: 4 meses  ·  15 días  ·  3 km", fontSize = 13.sp, color = Gris)
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(MoradoSuave)
-                            .padding(horizontal = 16.dp, vertical = 6.dp)
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text("Ver detalle", color = Morado, fontSize = 13.sp, fontWeight = FontWeight.Medium)
-                            Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = Morado, modifier = Modifier.size(16.dp))
-                        }
-                    }
-                }
-            }
-        }*/
 
         // Card destacada: Recordatorio Rocky
         Card(
