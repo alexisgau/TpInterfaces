@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.tpinterfaces.ui.AppDestinations
 import com.example.tpinterfaces.ui.AppNavigation
+import com.example.tpinterfaces.ui.Screen
 import com.example.tpinterfaces.ui.theme.TpInterfacesTheme
 
 class MainActivity : ComponentActivity() {
@@ -42,48 +43,59 @@ fun TpInterfacesApp() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+    val mostrarNavBar = currentDestination?.hasRoute(Screen.SolicitarTurno::class) != true
+
     val currentTab = AppDestinations.entries.find { tab ->
         currentDestination?.hasRoute(tab.route::class) == true
     } ?: AppDestinations.INICIO
 
     val colorSeleccionado = Color(0xFF4E8752)
-    val colorInactivo = Color(0xFF9E9E9E)
+    val colorInactivo     = Color(0xFF9E9E9E)
 
     val coloresDeLaBarra = NavigationSuiteDefaults.itemColors(
         navigationBarItemColors = NavigationBarItemDefaults.colors(
-            selectedIconColor = colorSeleccionado,
-            selectedTextColor = colorSeleccionado,
+            selectedIconColor   = colorSeleccionado,
+            selectedTextColor   = colorSeleccionado,
             unselectedIconColor = colorInactivo,
             unselectedTextColor = colorInactivo,
-            indicatorColor = Color.Transparent
+            indicatorColor      = Color.Transparent
         )
     )
 
-    NavigationSuiteScaffold(
-        navigationSuiteItems = {
-            AppDestinations.entries.forEach { tab ->
-                item(
-                    icon = { Icon(tab.icon, contentDescription = tab.label) },
-                    label = { Text(tab.label) },
-                    selected = tab == currentTab,
-                    onClick = {
-                        navController.navigate(tab.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+    if (mostrarNavBar) {
+        NavigationSuiteScaffold(
+            navigationSuiteItems = {
+                AppDestinations.entries.forEach { tab ->
+                    item(
+                        icon     = { Icon(tab.icon, contentDescription = tab.label) },
+                        label    = { Text(tab.label) },
+                        selected = tab == currentTab,
+                        onClick  = {
+                            navController.navigate(tab.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState    = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    colors = coloresDeLaBarra
+                        },
+                        colors = coloresDeLaBarra
+                    )
+                }
+            }
+        ) {
+            Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                AppNavigation(
+                    navController = navController,
+                    modifier      = Modifier.padding(innerPadding)
                 )
             }
         }
-    ) {
+    } else {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             AppNavigation(
                 navController = navController,
-                modifier = Modifier.padding(innerPadding)
+                modifier      = Modifier.padding(innerPadding)
             )
         }
     }
