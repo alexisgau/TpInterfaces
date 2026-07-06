@@ -39,3 +39,50 @@ data class Usuario(
     val nombre: String,
     val fotoUrl: String?
 )
+
+// --- Mascotas ---
+
+enum class EspecieMascota(val label: String) {
+    PERRO("Perro"), GATO("Gato"), CONEJO("Conejo"),
+    AVE("Ave"), OTRO("Otro")
+}
+
+enum class SexoMascota(val label: String) {
+    MACHO("Macho"), HEMBRA("Hembra")
+}
+
+enum class EstadoSalud {
+    AL_DIA, ALERTA, VENCIDO
+}
+
+data class Vacuna(
+    val id: String,
+    val nombre: String,
+    val ultimaFecha: String,
+    val proximaFecha: String,
+    val estado: EstadoSalud
+)
+
+data class Tratamiento(
+    val id: String,
+    val nombre: String,
+    val fecha: String,
+    val estado: EstadoSalud
+)
+
+data class Mascota(
+    val id: String,
+    val nombre: String,
+    val especie: EspecieMascota,
+    val raza: String,
+    val edadAnios: Int,
+    val pesoKg: Double,
+    val sexo: SexoMascota,
+    val castrado: Boolean,
+    @DrawableRes val fotoRes: Int?,
+    val alergias: List<String> = emptyList(),
+    val vacunas: List<Vacuna> = emptyList(),
+    val tratamientos: List<Tratamiento> = emptyList(),
+    val estadoSalud: EstadoSalud = EstadoSalud.AL_DIA,
+    val alertas: List<String> = emptyList()
+)
