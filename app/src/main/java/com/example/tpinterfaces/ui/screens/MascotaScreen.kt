@@ -25,7 +25,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tpinterfaces.R
 import com.example.tpinterfaces.ui.theme.BackgroundApp
+import com.example.tpinterfaces.ui.theme.ButtonBackgraundApp
 import com.example.tpinterfaces.ui.theme.Green
 import com.example.tpinterfaces.ui.theme.PurplePrimary
 import com.example.tpinterfaces.ui.theme.Red
@@ -50,25 +50,40 @@ fun MascotaScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Box(modifier = Modifier.fillMaxSize().background(BackgroundApp)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundApp)
+    ) {
         Column(modifier = Modifier.fillMaxSize()) {
             // Header
-            Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)) {
-                Text("Mis Mascotas", style = MaterialTheme.typography.titleLarge)
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp,
+                    vertical = 20.dp)
+            ) {
                 Text(
-                    "Gestioná la salud de tus compañeros",
+                    text = "Mis Mascotas",
+                    style = MaterialTheme.typography.titleLarge)
+                Text(
+                    text = "Gestioná la salud de tus compañeros",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray
                 )
             }
 
             if (uiState.cargando) {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(
+                    Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
                     CircularProgressIndicator()
                 }
             } else {
                 LazyColumn(
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+                    contentPadding = PaddingValues(
+                        horizontal = 16.dp,
+                        vertical = 4.dp
+                    ),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(uiState.mascotas) { mascota ->
@@ -85,8 +100,10 @@ fun MascotaScreen(
         // FAB agregar mascota
         FloatingActionButton(
             onClick = onAgregarClick,
-            modifier = Modifier.align(Alignment.BottomEnd).padding(24.dp),
-            containerColor = PurplePrimary
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(24.dp),
+            containerColor = ButtonBackgraundApp
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
@@ -107,12 +124,16 @@ private fun MascotaCard(mascota: Mascota, onClick: () -> Unit) {
     }
 
     Card(
-        modifier = Modifier.fillMaxWidth().clickable { onClick() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(0.dp)
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(
+            modifier = Modifier.padding(14.dp)
+        ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 // Foto
                 Image(
@@ -131,7 +152,7 @@ private fun MascotaCard(mascota: Mascota, onClick: () -> Unit) {
                         style = MaterialTheme.typography.titleLarge
                     )
                     Text(
-                        "${mascota.especie.label} · ${mascota.raza} · ${mascota.edadAnios} años",
+                        text = "${mascota.especie.label} · ${mascota.raza} · ${mascota.edadAnios} años",
                         style = MaterialTheme.typography.titleMedium,
                         color = Color.Gray
                     )
@@ -173,7 +194,11 @@ private fun MascotaCard(mascota: Mascota, onClick: () -> Unit) {
                             modifier = Modifier.size(14.dp)
                         )
                         Spacer(Modifier.width(6.dp))
-                        Text(alerta, style = MaterialTheme.typography.bodyMedium, color = Color(0xFF555555))
+                        Text(
+                            text = alerta,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color(0xFF555555)
+                        )
                     }
                 }
             }

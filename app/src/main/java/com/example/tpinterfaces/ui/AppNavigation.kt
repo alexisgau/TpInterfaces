@@ -3,8 +3,12 @@ package com.example.tpinterfaces.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.toRoute
+import com.example.tpinterfaces.ui.screens.DetalleMascotaScreen
 import com.example.tpinterfaces.ui.screens.HomeScreen
 import com.example.tpinterfaces.ui.screens.MascotaScreen
 import com.example.tpinterfaces.ui.screens.ProfileScreen
@@ -25,7 +29,7 @@ fun AppNavigation(
         composable<Screen.Inicio>    { HomeScreen() }
         composable<Screen.Mascotas>  {
             MascotaScreen(
-                onMascotaClick = { id -> navController.navigate("detalle_mascota/$id") },
+                onMascotaClick = { id -> navController.navigate(Screen.DetalleMascota(mascotaId = id)) },
                 onAgregarClick = { navController.navigate("agregar_mascota") })
         }
         composable<Screen.Servicios> { ServiciosScreen() }
@@ -45,6 +49,14 @@ fun AppNavigation(
                         popUpTo(Screen.Turnos) { inclusive = true }
                     }
                 }
+            )
+        }
+        composable<Screen.DetalleMascota> { backStackEntry ->
+            val detalleArgs = backStackEntry.toRoute<Screen.DetalleMascota>()
+
+            DetalleMascotaScreen(
+                mascotaId = detalleArgs.mascotaId,
+                onBack = { navController.popBackStack() }
             )
         }
     }
