@@ -3,11 +3,10 @@ package com.example.tpinterfaces.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import androidx.navigation.toRoute
+import com.example.tpinterfaces.ui.screens.AgregarMascotaScreen
 import com.example.tpinterfaces.ui.screens.DetalleMascotaScreen
 import com.example.tpinterfaces.ui.screens.HomeScreen
 import com.example.tpinterfaces.ui.screens.MascotaScreen
@@ -30,7 +29,7 @@ fun AppNavigation(
         composable<Screen.Mascotas>  {
             MascotaScreen(
                 onMascotaClick = { id -> navController.navigate(Screen.DetalleMascota(mascotaId = id)) },
-                onAgregarClick = { navController.navigate("agregar_mascota") })
+                onAgregarClick = { navController.navigate(Screen.AgregarMascota) })
         }
         composable<Screen.Servicios> { ServiciosScreen() }
         composable<Screen.Perfil>    { ProfileScreen() }
@@ -57,6 +56,12 @@ fun AppNavigation(
             DetalleMascotaScreen(
                 mascotaId = detalleArgs.mascotaId,
                 onBack = { navController.popBackStack() }
+            )
+        }
+        composable<Screen.AgregarMascota> {
+            AgregarMascotaScreen(
+                onBack = { navController.popBackStack() },
+                onGuardado = { navController.popBackStack() }
             )
         }
     }

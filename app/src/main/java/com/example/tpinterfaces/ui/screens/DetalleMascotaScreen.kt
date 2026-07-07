@@ -51,7 +51,6 @@ import com.example.tpinterfaces.data.model.EstadoSalud
 import com.example.tpinterfaces.data.repository.MascotasRepositoryImpl
 import com.example.tpinterfaces.ui.theme.BackgroundApp
 import com.example.tpinterfaces.ui.theme.Green
-import com.example.tpinterfaces.ui.theme.GreenPrimary
 import com.example.tpinterfaces.ui.theme.Red
 import com.example.tpinterfaces.ui.theme.TextSecondary
 import com.example.tpinterfaces.ui.theme.Yellow
