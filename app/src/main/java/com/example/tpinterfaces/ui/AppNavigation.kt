@@ -25,7 +25,11 @@ fun AppNavigation(
         startDestination = Screen.Inicio,
         modifier         = modifier
     ) {
-        composable<Screen.Inicio>    { HomeScreen() }
+        composable<Screen.Inicio>    {
+            HomeScreen(
+                onSolicitarTurno = { navController.navigate(Screen.SolicitarTurno) }
+            )
+        }
         composable<Screen.Mascotas>  {
             MascotaScreen(
                 onMascotaClick = { id -> navController.navigate(Screen.DetalleMascota(mascotaId = id)) },

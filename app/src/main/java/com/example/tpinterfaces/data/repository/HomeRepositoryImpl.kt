@@ -36,20 +36,6 @@ class HomeRepositoryImpl : HomeRepository {
 
     override suspend fun obtenerAccionesRapidas() = listOf(
         QuickAction(
-            "mis_mascotas",
-            "Mis Mascotas",
-            R.drawable.ic_pets,
-            GreenLight,
-            GreenPrimary
-        ),
-        QuickAction(
-            "sacar_turno",
-            "Sacar Turno",
-            R.drawable.ic_calendar_add,
-            PurpleSoft,
-            PurplePrimary
-        ),
-        QuickAction(
             "adoptar",
             "Adoptar",
             R.drawable.ic_favorite,
@@ -123,20 +109,6 @@ class HomeRepositoryImpl : HomeRepository {
             ),
 
             acciones = listOf(
-                QuickAction(
-                    id = "reportar",
-                    titulo = "Reportar",
-                    iconoRes = R.drawable.ic_report,
-                    colorFondo = OrangeBackReport,
-                    colorIcono = OrangeReportIcon
-                ),
-                QuickAction(
-                    id = "turnos",
-                    titulo = "Turnos",
-                    iconoRes = R.drawable.ic_calendar_add,
-                    colorFondo = PurpleSoft,
-                    colorIcono = PurplePrimary
-                ),
                 QuickAction(
                     id = "adopciones",
                     titulo = "Adopciones",

@@ -32,11 +32,10 @@ private val LightColorScheme = lightColorScheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-        val colorScheme = if (darkTheme) {
-            darkColorScheme(primary = brand.colorPrimario)
-        } else {
-            lightColorScheme(primary = brand.colorPrimario)
-        }
+        val colorScheme = lightColorScheme(
+            primary = brand.colorPrimario,
+            background = BackgroundApp,
+            surface = BackgroundApp)
 
         CompositionLocalProvider(LocalBrand provides brand) {
             MaterialTheme(

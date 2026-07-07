@@ -26,6 +26,8 @@ import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -43,6 +45,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -55,7 +58,11 @@ import com.example.tpinterfaces.data.model.QuickAction
 import com.example.tpinterfaces.data.model.Recordatorio
 import com.example.tpinterfaces.data.repository.HomeRepository
 import com.example.tpinterfaces.data.repository.HomeRepositoryImpl
+import com.example.tpinterfaces.ui.theme.BackgroundApp
+import com.example.tpinterfaces.ui.theme.ButtonBackgraundApp
 import com.example.tpinterfaces.ui.theme.GreenPrimary
+import com.example.tpinterfaces.ui.theme.PurpleSoft
+import com.example.tpinterfaces.ui.theme.Red
 import com.example.tpinterfaces.ui.theme.YellowBackLocation
 import com.example.tpinterfaces.ui.theme.YellowIconLocation
 import com.example.tpinterfaces.ui.viewModel.HomeViewModel
@@ -66,7 +73,8 @@ fun HomeScreen(
         factory = HomeViewModelFactory(
             repository = HomeRepositoryImpl()
         )
-    )
+    ),
+    onSolicitarTurno: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val brand = LocalBrand.current
@@ -145,7 +153,8 @@ fun HomeScreen(
             acciones = uiState.acciones,
             onActionClick = {
                 viewModel.onAccionRapidaClick(it.id)
-            }
+            },
+            onSolicitarTurno = onSolicitarTurno
         )
 
         Spacer(Modifier.height(16.dp))
@@ -227,7 +236,7 @@ fun GreetingHeader(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFF1F1F1))
+                    .background(BackgroundApp)
                     .clickable { onNotificationClick() },
                 contentAlignment = Alignment.Center
             ) {
@@ -341,11 +350,11 @@ fun ReminderCard(
             Text(
                 text = recordatorio.titulo,
                 fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium
             )
             Text(
                 recordatorio.descripcion,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleSmall
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
@@ -373,9 +382,19 @@ fun ReminderCard(
 fun QuickActionsGrid(
     modifier: Modifier,
     acciones: List<QuickAction>,
-    onActionClick: (QuickAction) -> Unit
+    onActionClick: (QuickAction) -> Unit,
+    onSolicitarTurno: () -> Unit = {}
 ) {
     Spacer(Modifier.height(16.dp))
+
+    ButtonPrimaryReport(onSolicitarTurno, "Solicitar Turno", ButtonBackgraundApp)
+
+    Spacer(Modifier.height(16.dp))
+
+    ButtonPrimaryReport(onSolicitarTurno, "Reportar Maltrato Animal", Red)
+
+    Spacer(Modifier.height(16.dp))
+
     Text(
         text = "Acciones Rápidas",
         style = MaterialTheme.typography.titleLarge,
@@ -448,6 +467,24 @@ private fun QuickActionItem(
 }
 
 @Composable
+fun ButtonPrimaryReport(onClick: () -> Unit, text: String, color: Color){
+    Button(
+        onClick  = { onClick() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp),
+        shape    = RoundedCornerShape(14.dp),
+        colors   = ButtonDefaults.buttonColors(containerColor = color)
+    ) {
+        Text(
+            text       = text,
+            fontSize   = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+            color      = Color.White
+        )
+    }
+}
+@Composable
 fun NewsItemCard(
     noticia: Noticia,
     onClick: () -> Unit
@@ -455,7 +492,8 @@ fun NewsItemCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 4.dp)
+            .background(PurpleSoft),
         onClick = onClick
     ) {
         Row(
@@ -490,7 +528,7 @@ fun NewsItemCard(
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = noticia.descripcion,
