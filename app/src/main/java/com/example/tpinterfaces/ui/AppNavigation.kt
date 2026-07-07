@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.tpinterfaces.ui.screens.HomeScreen
-import com.example.tpinterfaces.ui.screens.MascotasScreen
+import com.example.tpinterfaces.ui.screens.MascotaScreen
 import com.example.tpinterfaces.ui.screens.ProfileScreen
 import com.example.tpinterfaces.ui.screens.ServiciosScreen
 import com.example.tpinterfaces.ui.screens.SolicitarTurnoScreen
@@ -23,7 +23,11 @@ fun AppNavigation(
         modifier         = modifier
     ) {
         composable<Screen.Inicio>    { HomeScreen() }
-        composable<Screen.Mascotas>  { MascotasScreen() }
+        composable<Screen.Mascotas>  {
+            MascotaScreen(
+                onMascotaClick = { id -> navController.navigate("detalle_mascota/$id") },
+                onAgregarClick = { navController.navigate("agregar_mascota") })
+        }
         composable<Screen.Servicios> { ServiciosScreen() }
         composable<Screen.Perfil>    { ProfileScreen() }
 
