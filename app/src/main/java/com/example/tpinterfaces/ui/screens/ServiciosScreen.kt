@@ -399,7 +399,7 @@ private fun ServicioCard(servicio: ServicioItem) {
 @androidx.compose.ui.tooling.preview.Preview(showBackground = true)
 @androidx.compose.runtime.Composable
 fun ServiciosScreenPreview() {
-    com.example.tpinterfaces.ui.theme.TpInterfacesTheme {
+    com.example.tpinterfaces.ui.theme.TpInterfacesTheme(brand = com.example.tpinterfaces.branding.BrandCatalog.MORON) {
         ServiciosScreen()
     }
 }
