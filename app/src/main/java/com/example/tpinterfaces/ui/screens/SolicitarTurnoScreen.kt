@@ -334,6 +334,20 @@ private fun PasoServicio(
             titulo    = "¿Qué servicio?",
             subtitulo = "Elegí el tipo de atención"
         )
+        Spacer(Modifier.height(12.dp))
+
+        ResumenSeleccion(
+            mascota = Mascota(
+                nombre = "Rocky",
+                emoji = "🐶"
+            ),
+            servicio = null,
+            centro = null,
+            fecha = null,
+            hora = null
+        )
+
+        Spacer(Modifier.height(16.dp))
         Spacer(Modifier.height(16.dp))
         TurnosRepository.servicios.forEach { servicio ->
             val activo = seleccionado == servicio
@@ -420,6 +434,23 @@ private fun PasoCentro(
             titulo    = "¿Qué centro?",
             subtitulo = "Seleccioná el centro más cercano"
         )
+        Spacer(Modifier.height(12.dp))
+
+        ResumenSeleccion(
+            mascota = Mascota(
+                nombre = "Rocky",
+                emoji = "🐶"
+            ),
+            servicio = Servicio(
+                nombre = "Castración",
+                descripcion = "Cirugía programada"
+            ),
+            centro = null,
+            fecha = null,
+            hora = null
+        )
+
+        Spacer(Modifier.height(16.dp))
         Spacer(Modifier.height(16.dp))
         TurnosRepository.centros.forEach { centro ->
             val activo = seleccionado == centro
@@ -524,6 +555,27 @@ private fun PasoFechaHora(
             .padding(16.dp)
     ) {
         PasoHeader(titulo = "¿Cuándo?", subtitulo = "Elegí fecha y horario")
+        Spacer(Modifier.height(12.dp))
+
+        ResumenSeleccion(
+            mascota = Mascota(
+                nombre = "Rocky",
+                emoji = "🐶"
+            ),
+            servicio = Servicio(
+                nombre = "Castración",
+                descripcion = "Cirugía programada"
+            ),
+            centro = Centro(
+                nombre = "Centro Municipal de Salud Animal",
+                direccion = "Av. Siempre Viva 123",
+                distancia = "1,2 km"
+            ),
+            fecha = null,
+            hora = null
+        )
+
+        Spacer(Modifier.height(16.dp))
         Spacer(Modifier.height(16.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -943,5 +995,114 @@ private fun BotonVolver(onClick: () -> Unit) {
 private fun SolicitarTurnoPreview() {
     MaterialTheme {
         SolicitarTurnoScreen(onBack = {}, onConfirmar = {})
+    }
+}
+
+@Composable
+private fun ResumenSeleccion(
+    mascota: Mascota?,
+    servicio: Servicio?,
+    centro: Centro?,
+    fecha: LocalDate?,
+    hora: LocalTime?
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp),
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = FlowGreenLt)
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp)
+        ) {
+
+            Text(
+                text = "Resumen",
+                fontWeight = FontWeight.Bold,
+                color = FlowGreen
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            mascota?.let {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Pets,
+                        contentDescription = null,
+                        tint = FlowGreen,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Mascota: ${it.nombre}")
+                }
+            }
+
+            servicio?.let {
+                Spacer(Modifier.height(6.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.MedicalServices,
+                        contentDescription = null,
+                        tint = FlowGreen,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Servicio: ${it.nombre}")
+                }
+            }
+
+            centro?.let {
+                Spacer(Modifier.height(6.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.LocationOn,
+                        contentDescription = null,
+                        tint = FlowGreen,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Centro: ${it.nombre}")
+                }
+            }
+
+            fecha?.let {
+                Spacer(Modifier.height(6.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.CalendarMonth,
+                        contentDescription = null,
+                        tint = FlowGreen,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Fecha: ${it.format(confirmDateFmt)}")
+                }
+            }
+
+            hora?.let {
+                Spacer(Modifier.height(6.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.CalendarMonth,
+                        contentDescription = null,
+                        tint = FlowGreen,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Hora: ${it.format(timeFmt)}")
+                }
+            }
+        }
     }
 }

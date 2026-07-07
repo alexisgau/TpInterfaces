@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import androidx.compose.material.icons.outlined.Phone
 
 private val ColorGreen   = Color(0xFF3A5B3D)
 private val ColorYellow  = Color(0xFFF8C453)
@@ -54,7 +55,7 @@ fun TurnosScreen(
             item {
                 Column(modifier = Modifier.padding(bottom = 4.dp)) {
                     Text(
-                        text       = "Mis Turnos",
+                        text       = "Turnos",
                         fontSize   = 26.sp,
                         fontWeight = FontWeight.Bold,
                         color      = ColorText
@@ -86,7 +87,7 @@ fun TurnosScreen(
             }
 
             item {
-                SectionHeader(title = "Próximos turnos")
+                SectionHeader(title = "Mis turnos")
             }
 
             if (proximos.isEmpty()) {
@@ -145,10 +146,10 @@ private fun TurnoCard(turno: Turno) {
                     fontSize   = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color      = ColorText,
-                    modifier   = Modifier.weight(1f)
+                    //modifier   = Modifier.weight(1f)
                 )
-                Spacer(Modifier.width(8.dp))
-                EstadoBadge(estado = turno.estado)
+                //Spacer(Modifier.width(8.dp))
+                //EstadoBadge(estado = turno.estado)
             }
             Spacer(Modifier.height(6.dp))
             Text(
@@ -163,6 +164,47 @@ private fun TurnoCard(turno: Turno) {
             InfoRow(icon = Icons.Outlined.Schedule, text = turno.hora.format(timeFormatter))
             Spacer(Modifier.height(4.dp))
             InfoRow(icon = Icons.Outlined.LocationOn, text = turno.lugar)
+            Spacer(Modifier.height(12.dp))
+
+            HorizontalDivider(color = Color(0xFFF5F5F2))
+
+            Spacer(Modifier.height(12.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Button(
+                    onClick = {},
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.buttonColors(containerColor = ColorGreen.copy(alpha = 0.12f)),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Icon(
+                        Icons.Outlined.LocationOn,
+                        contentDescription = null,
+                        tint = ColorGreen,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("Cómo llegar", color = ColorGreen, fontSize = 13.sp)
+                }
+                Button(
+                    onClick = {},
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.buttonColors(containerColor = ColorGreen),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Icon(
+                        Icons.Outlined.Phone,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("Llamar", color = Color.White, fontSize = 13.sp)
+                }
+            }
         }
     }
 }
