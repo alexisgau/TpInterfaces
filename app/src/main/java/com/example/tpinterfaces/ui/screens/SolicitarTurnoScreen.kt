@@ -1,5 +1,7 @@
 package com.example.tpinterfaces.ui.screens
 
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -40,30 +42,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-
-
-
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
-private val FlowGreen   = Color(0xFF3A5B3D)
-private val FlowGreenLt = Color(0xFFE8F0E9)
-private val FlowYellow  = Color(0xFFF8C453)
-private val FlowBrown   = Color(0xFF95513C)
-private val FlowSurface = Color(0xFFF5F5F2)
-private val FlowCard    = Color(0xFFFFFFFF)
-private val FlowText    = Color(0xFF1A1A1A)
-private val FlowSubtext = Color(0xFF6B7B6E)
+private val FlowGreen    = Color(0xFF3A5B3D)
+private val FlowGreenLt  = Color(0xFFE8F0E9)
+private val FlowSurface  = Color(0xFFF5F5F2)
+private val FlowCard     = Color(0xFFFFFFFF)
+private val FlowText     = Color(0xFF1A1A1A)
+private val FlowSubtext  = Color(0xFF6B7B6E)
 private val FlowDisabled = Color(0xFFD0D5D1)
 
-private val localeEs = Locale("es", "AR")
-private val dayNameFmt = DateTimeFormatter.ofPattern("EEE", localeEs)
+private val localeEs       = Locale("es", "AR")
+private val dayNameFmt     = DateTimeFormatter.ofPattern("EEE", localeEs)
 private val confirmDateFmt = DateTimeFormatter.ofPattern("EEE d MMM", localeEs)
-private val timeFmt = DateTimeFormatter.ofPattern("HH:mm 'hs'")
+private val timeFmt        = DateTimeFormatter.ofPattern("HH:mm 'hs'")
 
 @Composable
 fun SolicitarTurnoScreen(
@@ -71,21 +67,17 @@ fun SolicitarTurnoScreen(
     onConfirmar: () -> Unit
 ) {
     var paso by remember { mutableIntStateOf(1) }
-    var mascotaSeleccionada by remember { mutableStateOf<Mascota?>(null) }
+    var mascotaSeleccionada  by remember { mutableStateOf<Mascota?>(null) }
     var servicioSeleccionado by remember { mutableStateOf<Servicio?>(null) }
-    var centroSeleccionado by remember { mutableStateOf<Centro?>(null) }
-    var fechaSeleccionada by remember { mutableStateOf<LocalDate?>(null) }
-    var horaSeleccionada by remember { mutableStateOf<LocalTime?>(null) }
+    var centroSeleccionado   by remember { mutableStateOf<Centro?>(null) }
+    var fechaSeleccionada    by remember { mutableStateOf<LocalDate?>(null) }
+    var horaSeleccionada     by remember { mutableStateOf<LocalTime?>(null) }
 
     val hoy = LocalDate.of(2024, 7, 15)
 
-    fun irAtras() {
-        if (paso == 1) onBack() else paso--
-    }
+    fun irAtras() { if (paso == 1) onBack() else paso-- }
 
-    Scaffold(
-        containerColor = FlowSurface
-    ) { padding ->
+    Scaffold(containerColor = FlowSurface) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -93,6 +85,17 @@ fun SolicitarTurnoScreen(
         ) {
             TopBar(titulo = "Solicitar Turno", onBack = ::irAtras)
             StepIndicator(pasoActual = paso, totalPasos = 5)
+
+            if (paso > 1 && paso < 5) {
+                ResumenContexto(
+                    mascota  = mascotaSeleccionada,
+                    servicio = servicioSeleccionado,
+                    centro   = centroSeleccionado,
+                    fecha    = fechaSeleccionada,
+                    hora     = horaSeleccionada,
+                    paso     = paso
+                )
+            }
 
             AnimatedContent(
                 targetState = paso,
@@ -106,38 +109,38 @@ fun SolicitarTurnoScreen(
             ) { pasoActual ->
                 when (pasoActual) {
                     1 -> PasoMascota(
-                        seleccionada = mascotaSeleccionada,
+                        seleccionada  = mascotaSeleccionada,
                         onSeleccionar = { mascotaSeleccionada = it },
-                        onContinuar = { paso = 2 }
+                        onContinuar   = { paso = 2 }
                     )
                     2 -> PasoServicio(
-                        seleccionado = servicioSeleccionado,
+                        seleccionado  = servicioSeleccionado,
                         onSeleccionar = { servicioSeleccionado = it },
-                        onContinuar = { paso = 3 },
-                        onVolver = { paso = 1 }
+                        onContinuar   = { paso = 3 },
+                        onVolver      = { paso = 1 }
                     )
                     3 -> PasoCentro(
-                        seleccionado = centroSeleccionado,
+                        seleccionado  = centroSeleccionado,
                         onSeleccionar = { centroSeleccionado = it },
-                        onContinuar = { paso = 4 },
-                        onVolver = { paso = 2 }
+                        onContinuar   = { paso = 4 },
+                        onVolver      = { paso = 2 }
                     )
                     4 -> PasoFechaHora(
-                        hoy = hoy,
-                        centroNombre = centroSeleccionado?.nombre ?: "",
+                        hoy               = hoy,
+                        centroNombre      = centroSeleccionado?.nombre ?: "",
                         fechaSeleccionada = fechaSeleccionada,
-                        horaSeleccionada = horaSeleccionada,
-                        onFecha = { f -> fechaSeleccionada = f; horaSeleccionada = null },
-                        onHora = { horaSeleccionada = it },
-                        onContinuar = { paso = 5 },
-                        onVolver = { paso = 3 }
+                        horaSeleccionada  = horaSeleccionada,
+                        onFecha           = { f -> fechaSeleccionada = f; horaSeleccionada = null },
+                        onHora            = { horaSeleccionada = it },
+                        onContinuar       = { paso = 5 },
+                        onVolver          = { paso = 3 }
                     )
                     5 -> PasoConfirmacion(
-                        mascota = mascotaSeleccionada!!,
-                        servicio = servicioSeleccionado!!,
-                        centro = centroSeleccionado!!,
-                        fecha = fechaSeleccionada!!,
-                        hora = horaSeleccionada!!,
+                        mascota    = mascotaSeleccionada!!,
+                        servicio   = servicioSeleccionado!!,
+                        centro     = centroSeleccionado!!,
+                        fecha      = fechaSeleccionada!!,
+                        hora       = horaSeleccionada!!,
                         onConfirmar = {
                             val nuevo = TurnosRepository.nuevoTurno(
                                 servicioSeleccionado!!,
@@ -157,10 +160,81 @@ fun SolicitarTurnoScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun ResumenContexto(
+    mascota:  Mascota?,
+    servicio: Servicio?,
+    centro:   Centro?,
+    fecha:    LocalDate?,
+    hora:     LocalTime?,
+    paso:     Int
+) {
+    Card(
+        modifier  = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp),
+        shape     = RoundedCornerShape(14.dp),
+        colors    = CardDefaults.cardColors(containerColor = FlowGreenLt),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        FlowRow(
+            modifier              = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 14.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement   = Arrangement.spacedBy(6.dp)
+        ) {
+            if (mascota != null) {
+                ChipResumen(icono = Icons.Outlined.Pets, texto = mascota.nombre)
+            }
+            if (servicio != null && paso >= 3) {
+                ChipResumen(icono = Icons.Outlined.MedicalServices, texto = servicio.nombre)
+            }
+            if (centro != null && paso >= 4) {
+                ChipResumen(icono = Icons.Outlined.LocationOn, texto = centro.nombre)
+            }
+            if (fecha != null && hora != null && paso >= 5) {
+                ChipResumen(
+                    icono = Icons.Outlined.CalendarMonth,
+                    texto = "${fecha.format(confirmDateFmt)} · ${hora.format(timeFmt)}"
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ChipResumen(icono: ImageVector, texto: String) {
+    Surface(
+        shape  = RoundedCornerShape(20.dp),
+        color  = FlowGreen.copy(alpha = 0.12f)
+    ) {
+        Row(
+            modifier          = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector        = icono,
+                contentDescription = null,
+                tint               = FlowGreen,
+                modifier           = Modifier.size(13.dp)
+            )
+            Spacer(Modifier.width(5.dp))
+            Text(
+                text       = texto,
+                fontSize   = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                color      = FlowGreen
+            )
+        }
+    }
+}
+
 @Composable
 private fun TopBar(titulo: String, onBack: () -> Unit) {
     Row(
-        modifier = Modifier
+        modifier          = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -197,7 +271,7 @@ private fun StepIndicator(pasoActual: Int, totalPasos: Int) {
 
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier
+                modifier         = Modifier
                     .size(32.dp)
                     .clip(CircleShape)
                     .background(
@@ -248,10 +322,7 @@ private fun PasoMascota(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        PasoHeader(
-            titulo    = "¿Qué mascota?",
-            subtitulo = "Seleccioná la mascota para el turno"
-        )
+        PasoHeader(titulo = "¿Qué mascota?", subtitulo = "Seleccioná la mascota para el turno")
         Spacer(Modifier.height(16.dp))
         TurnosRepository.mascotas.forEach { mascota ->
             val activa = seleccionada == mascota
@@ -260,14 +331,9 @@ private fun PasoMascota(
                     .fillMaxWidth()
                     .padding(bottom = 10.dp)
                     .clickable { onSeleccionar(mascota) }
-                    .then(
-                        if (activa) Modifier.border(2.dp, FlowGreen, RoundedCornerShape(16.dp))
-                        else Modifier
-                    ),
+                    .then(if (activa) Modifier.border(2.dp, FlowGreen, RoundedCornerShape(16.dp)) else Modifier),
                 shape     = RoundedCornerShape(16.dp),
-                colors    = CardDefaults.cardColors(
-                    containerColor = if (activa) FlowGreenLt else FlowCard
-                ),
+                colors    = CardDefaults.cardColors(containerColor = if (activa) FlowGreenLt else FlowCard),
                 elevation = CardDefaults.cardElevation(defaultElevation = if (activa) 0.dp else 2.dp)
             ) {
                 Row(
@@ -304,10 +370,7 @@ private fun PasoMascota(
         }
         Spacer(Modifier.weight(1f))
         Spacer(Modifier.height(16.dp))
-        BotonContinuar(
-            habilitado = seleccionada != null,
-            onClick    = onContinuar
-        )
+        BotonContinuar(habilitado = seleccionada != null, onClick = onContinuar)
     }
 }
 
@@ -319,9 +382,9 @@ private fun PasoServicio(
     onVolver: () -> Unit
 ) {
     val iconos = mapOf(
-        "Castración"  to Icons.Outlined.MedicalServices,
-        "Vacunación"  to Icons.Outlined.MedicalServices,
-        "Consulta"    to Icons.Outlined.Pets
+        "Castración" to Icons.Outlined.MedicalServices,
+        "Vacunación" to Icons.Outlined.MedicalServices,
+        "Consulta"   to Icons.Outlined.Pets
     )
 
     Column(
@@ -330,10 +393,7 @@ private fun PasoServicio(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        PasoHeader(
-            titulo    = "¿Qué servicio?",
-            subtitulo = "Elegí el tipo de atención"
-        )
+        PasoHeader(titulo = "¿Qué servicio?", subtitulo = "Elegí el tipo de atención")
         Spacer(Modifier.height(16.dp))
         TurnosRepository.servicios.forEach { servicio ->
             val activo = seleccionado == servicio
@@ -342,14 +402,9 @@ private fun PasoServicio(
                     .fillMaxWidth()
                     .padding(bottom = 10.dp)
                     .clickable { onSeleccionar(servicio) }
-                    .then(
-                        if (activo) Modifier.border(2.dp, FlowGreen, RoundedCornerShape(16.dp))
-                        else Modifier
-                    ),
+                    .then(if (activo) Modifier.border(2.dp, FlowGreen, RoundedCornerShape(16.dp)) else Modifier),
                 shape     = RoundedCornerShape(16.dp),
-                colors    = CardDefaults.cardColors(
-                    containerColor = if (activo) FlowGreenLt else FlowCard
-                ),
+                colors    = CardDefaults.cardColors(containerColor = if (activo) FlowGreenLt else FlowCard),
                 elevation = CardDefaults.cardElevation(defaultElevation = if (activo) 0.dp else 2.dp)
             ) {
                 Row(
@@ -378,11 +433,7 @@ private fun PasoServicio(
                             fontWeight = FontWeight.SemiBold,
                             color      = if (activo) FlowGreen else FlowText
                         )
-                        Text(
-                            text     = servicio.descripcion,
-                            fontSize = 13.sp,
-                            color    = FlowSubtext
-                        )
+                        Text(text = servicio.descripcion, fontSize = 13.sp, color = FlowSubtext)
                     }
                     if (activo) {
                         Icon(
@@ -416,10 +467,7 @@ private fun PasoCentro(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        PasoHeader(
-            titulo    = "¿Qué centro?",
-            subtitulo = "Seleccioná el centro más cercano"
-        )
+        PasoHeader(titulo = "¿Qué centro?", subtitulo = "Seleccioná el centro más cercano")
         Spacer(Modifier.height(16.dp))
         TurnosRepository.centros.forEach { centro ->
             val activo = seleccionado == centro
@@ -428,14 +476,9 @@ private fun PasoCentro(
                     .fillMaxWidth()
                     .padding(bottom = 10.dp)
                     .clickable { onSeleccionar(centro) }
-                    .then(
-                        if (activo) Modifier.border(2.dp, FlowGreen, RoundedCornerShape(16.dp))
-                        else Modifier
-                    ),
+                    .then(if (activo) Modifier.border(2.dp, FlowGreen, RoundedCornerShape(16.dp)) else Modifier),
                 shape     = RoundedCornerShape(16.dp),
-                colors    = CardDefaults.cardColors(
-                    containerColor = if (activo) FlowGreenLt else FlowCard
-                ),
+                colors    = CardDefaults.cardColors(containerColor = if (activo) FlowGreenLt else FlowCard),
                 elevation = CardDefaults.cardElevation(defaultElevation = if (activo) 0.dp else 2.dp)
             ) {
                 Row(
@@ -546,59 +589,34 @@ private fun PasoFechaHora(
 
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(diasDisponibles) { dia ->
-                val activo     = fechaSeleccionada == dia
-                val esDomingo  = dia.dayOfWeek.value == 7
-
+                val activo = fechaSeleccionada == dia
                 Column(
                     modifier = Modifier
                         .width(58.dp)
                         .clip(RoundedCornerShape(14.dp))
-                        .background(
-                            when {
-                                activo    -> FlowGreen
-                                esDomingo -> FlowDisabled.copy(alpha = 0.4f)
-                                else      -> FlowCard
-                            }
-                        )
-                        .border(
-                            width  = if (activo) 0.dp else 1.dp,
-                            color  = if (activo) Color.Transparent else FlowDisabled,
-                            shape  = RoundedCornerShape(14.dp)
-                        )
-                        .clickable(enabled = !esDomingo) { onFecha(dia) }
+                        .background(if (activo) FlowGreen else FlowCard)
+                        .border(1.dp, if (activo) Color.Transparent else FlowDisabled, RoundedCornerShape(14.dp))
+                        .clickable { onFecha(dia) }
                         .padding(vertical = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text     = dia.format(dayNameFmt).uppercase(),
                         fontSize = 10.sp,
-                        color    = when {
-                            activo    -> Color.White.copy(alpha = 0.8f)
-                            esDomingo -> FlowDisabled
-                            else      -> FlowSubtext
-                        }
+                        color    = if (activo) Color.White.copy(alpha = 0.8f) else FlowSubtext
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
                         text       = "${dia.dayOfMonth}",
                         fontSize   = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color      = when {
-                            activo    -> Color.White
-                            esDomingo -> FlowDisabled
-                            else      -> FlowText
-                        }
+                        color      = if (activo) Color.White else FlowText
                     )
                     Spacer(Modifier.height(2.dp))
                     Text(
-                        text     = dia.month.getDisplayName(TextStyle.SHORT, localeEs)
-                            .replaceFirstChar { it.uppercase() },
+                        text     = dia.month.getDisplayName(TextStyle.SHORT, localeEs).replaceFirstChar { it.uppercase() },
                         fontSize = 10.sp,
-                        color    = when {
-                            activo    -> Color.White.copy(alpha = 0.8f)
-                            esDomingo -> FlowDisabled
-                            else      -> FlowSubtext
-                        }
+                        color    = if (activo) Color.White.copy(alpha = 0.8f) else FlowSubtext
                     )
                 }
             }
@@ -627,9 +645,9 @@ private fun PasoFechaHora(
 
             if (todoOcupado) {
                 Card(
-                    modifier  = Modifier.fillMaxWidth(),
-                    shape     = RoundedCornerShape(14.dp),
-                    colors    = CardDefaults.cardColors(containerColor = Color(0xFFFFF3CD))
+                    modifier = Modifier.fillMaxWidth(),
+                    shape    = RoundedCornerShape(14.dp),
+                    colors   = CardDefaults.cardColors(containerColor = Color(0xFFFFF3CD))
                 ) {
                     Text(
                         text      = "No hay turnos disponibles para este día en este centro. Probá otro día u otro centro.",
@@ -640,17 +658,15 @@ private fun PasoFechaHora(
                     )
                 }
             } else {
-                val todosHorarios = TurnosRepository.horariosBase
                 LazyVerticalGrid(
-                    columns             = GridCells.Fixed(3),
+                    columns               = GridCells.Fixed(3),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement   = Arrangement.spacedBy(8.dp),
-                    modifier            = Modifier.heightIn(max = 280.dp)
+                    modifier              = Modifier.heightIn(max = 280.dp)
                 ) {
-                    items(todosHorarios) { hora ->
+                    items(TurnosRepository.horariosBase) { hora ->
                         val disponible = hora in horarios
                         val activa     = horaSeleccionada == hora
-
                         Box(
                             modifier         = Modifier
                                 .fillMaxWidth()
@@ -662,15 +678,7 @@ private fun PasoFechaHora(
                                         else        -> FlowCard
                                     }
                                 )
-                                .border(
-                                    width = 1.dp,
-                                    color = when {
-                                        activa      -> Color.Transparent
-                                        !disponible -> FlowDisabled
-                                        else        -> FlowDisabled
-                                    },
-                                    shape = RoundedCornerShape(10.dp)
-                                )
+                                .border(1.dp, FlowDisabled, RoundedCornerShape(10.dp))
                                 .clickable(enabled = disponible) { onHora(hora) }
                                 .padding(vertical = 10.dp),
                             contentAlignment = Alignment.Center
@@ -693,10 +701,10 @@ private fun PasoFechaHora(
                 if (horariosOcupados.isNotEmpty()) {
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        text     = "Los horarios en gris ya están ocupados",
-                        fontSize = 11.sp,
-                        color    = FlowSubtext,
-                        modifier = Modifier.fillMaxWidth(),
+                        text      = "Los horarios en gris ya están ocupados",
+                        fontSize  = 11.sp,
+                        color     = FlowSubtext,
+                        modifier  = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
                 }
@@ -739,11 +747,11 @@ private fun PasoConfirmacion(
     onVolver: () -> Unit
 ) {
     Column(
-        modifier              = Modifier
+        modifier            = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(16.dp),
-        horizontalAlignment   = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(12.dp))
 
@@ -788,28 +796,16 @@ private fun PasoConfirmacion(
         ) {
             Column(modifier = Modifier.padding(4.dp)) {
                 ConfirmRow(
-                    icono  = Icons.Outlined.CalendarMonth,
-                    label  = "Fecha y hora",
-                    valor  = "${fecha.format(confirmDateFmt)} · ${hora.format(timeFmt)}"
+                    icono = Icons.Outlined.CalendarMonth,
+                    label = "Fecha y hora",
+                    valor = "${fecha.format(confirmDateFmt)} · ${hora.format(timeFmt)}"
                 )
                 HorizontalDivider(color = FlowSurface, thickness = 1.dp)
-                ConfirmRow(
-                    icono  = Icons.Outlined.LocationOn,
-                    label  = "Centro",
-                    valor  = centro.nombre
-                )
+                ConfirmRow(icono = Icons.Outlined.LocationOn,     label = "Centro",   valor = centro.nombre)
                 HorizontalDivider(color = FlowSurface, thickness = 1.dp)
-                ConfirmRow(
-                    icono  = Icons.Outlined.MedicalServices,
-                    label  = "Servicio",
-                    valor  = servicio.nombre
-                )
+                ConfirmRow(icono = Icons.Outlined.MedicalServices, label = "Servicio", valor = servicio.nombre)
                 HorizontalDivider(color = FlowSurface, thickness = 1.dp)
-                ConfirmRow(
-                    icono  = Icons.Outlined.Pets,
-                    label  = "Mascota",
-                    valor  = mascota.nombre
-                )
+                ConfirmRow(icono = Icons.Outlined.Pets,            label = "Mascota",  valor = mascota.nombre)
             }
         }
 
@@ -849,22 +845,12 @@ private fun ConfirmRow(icono: ImageVector, label: String, valor: String) {
                 .background(FlowGreenLt),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector        = icono,
-                contentDescription = null,
-                tint               = FlowGreen,
-                modifier           = Modifier.size(20.dp)
-            )
+            Icon(imageVector = icono, contentDescription = null, tint = FlowGreen, modifier = Modifier.size(20.dp))
         }
         Spacer(Modifier.width(14.dp))
         Column {
             Text(text = label, fontSize = 11.sp, color = FlowSubtext)
-            Text(
-                text       = valor,
-                fontSize   = 15.sp,
-                fontWeight = FontWeight.SemiBold,
-                color      = FlowText
-            )
+            Text(text = valor, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = FlowText)
         }
     }
 }
@@ -872,18 +858,9 @@ private fun ConfirmRow(icono: ImageVector, label: String, valor: String) {
 @Composable
 private fun PasoHeader(titulo: String, subtitulo: String) {
     Column {
-        Text(
-            text       = titulo,
-            fontSize   = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color      = FlowText
-        )
+        Text(text = titulo, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = FlowText)
         Spacer(Modifier.height(2.dp))
-        Text(
-            text     = subtitulo,
-            fontSize = 13.sp,
-            color    = FlowSubtext
-        )
+        Text(text = subtitulo, fontSize = 13.sp, color = FlowSubtext)
     }
 }
 
@@ -901,40 +878,18 @@ private fun BotonContinuar(habilitado: Boolean, onClick: () -> Unit) {
             disabledContainerColor = FlowGreen.copy(alpha = 0.35f)
         )
     ) {
-        Text(
-            text       = "Continuar",
-            fontSize   = 16.sp,
-            fontWeight = FontWeight.SemiBold,
-            color      = Color.White
-        )
+        Text(text = "Continuar", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
         Spacer(Modifier.width(6.dp))
-        Icon(
-            imageVector        = Icons.AutoMirrored.Outlined.ArrowForward,
-            contentDescription = null,
-            tint               = Color.White,
-            modifier           = Modifier.size(18.dp)
-        )
+        Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowForward, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
     }
 }
 
 @Composable
 private fun BotonVolver(onClick: () -> Unit) {
-    TextButton(
-        onClick  = onClick,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Icon(
-            imageVector        = Icons.AutoMirrored.Outlined.ArrowBack,
-            contentDescription = null,
-            tint               = FlowSubtext,
-            modifier           = Modifier.size(16.dp)
-        )
+    TextButton(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
+        Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = null, tint = FlowSubtext, modifier = Modifier.size(16.dp))
         Spacer(Modifier.width(4.dp))
-        Text(
-            text     = "Volver",
-            fontSize = 14.sp,
-            color    = FlowSubtext
-        )
+        Text(text = "Volver", fontSize = 14.sp, color = FlowSubtext)
     }
 }
 

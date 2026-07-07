@@ -24,7 +24,6 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 private val ColorGreen   = Color(0xFF3A5B3D)
-private val ColorYellow  = Color(0xFFF8C453)
 private val ColorSurface = Color(0xFFF5F5F2)
 private val ColorCard    = Color(0xFFFFFFFF)
 private val ColorText    = Color(0xFF1A1A1A)
@@ -135,21 +134,12 @@ private fun TurnoCard(turno: Turno) {
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                modifier              = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment     = Alignment.Top
-            ) {
-                Text(
-                    text       = turno.titulo,
-                    fontSize   = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color      = ColorText,
-                    modifier   = Modifier.weight(1f)
-                )
-                Spacer(Modifier.width(8.dp))
-                EstadoBadge(estado = turno.estado)
-            }
+            Text(
+                text       = turno.titulo,
+                fontSize   = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color      = ColorText
+            )
             Spacer(Modifier.height(6.dp))
             Text(
                 text       = turno.mascota,
@@ -205,26 +195,6 @@ private fun HistorialCard(turno: Turno) {
     }
 }
 
-@Composable
-private fun EstadoBadge(estado: EstadoTurno) {
-    val (label, bgColor, textColor) = when (estado) {
-        EstadoTurno.CONFIRMADO -> Triple("Confirmado", ColorGreen.copy(alpha = 0.12f), ColorGreen)
-        EstadoTurno.PENDIENTE  -> Triple("Pendiente",  ColorYellow.copy(alpha = 0.25f), Color(0xFFB8860B))
-        EstadoTurno.COMPLETADO -> Triple("Completado", ColorSubtext.copy(alpha = 0.12f), ColorSubtext)
-    }
-    Box(
-        modifier = Modifier
-            .background(bgColor, RoundedCornerShape(20.dp))
-            .padding(horizontal = 10.dp, vertical = 4.dp)
-    ) {
-        Text(
-            text       = label,
-            fontSize   = 12.sp,
-            fontWeight = FontWeight.SemiBold,
-            color      = textColor
-        )
-    }
-}
 
 @Composable
 private fun InfoRow(icon: ImageVector, text: String) {
