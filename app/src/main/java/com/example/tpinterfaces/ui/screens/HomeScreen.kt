@@ -4,7 +4,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +26,8 @@ import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -26,7 +38,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -34,10 +45,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.tpinterfaces.branding.BrandCatalog
+import com.example.tpinterfaces.R
 import com.example.tpinterfaces.branding.BrandConfig
 import com.example.tpinterfaces.branding.LocalBrand
 import com.example.tpinterfaces.data.model.Campania
@@ -46,11 +58,14 @@ import com.example.tpinterfaces.data.model.QuickAction
 import com.example.tpinterfaces.data.model.Recordatorio
 import com.example.tpinterfaces.data.repository.HomeRepository
 import com.example.tpinterfaces.data.repository.HomeRepositoryImpl
-import com.example.tpinterfaces.ui.viewModel.HomeViewModel
-import com.example.tpinterfaces.R
+import com.example.tpinterfaces.ui.theme.BackgroundApp
+import com.example.tpinterfaces.ui.theme.ButtonBackgraundApp
 import com.example.tpinterfaces.ui.theme.GreenPrimary
+import com.example.tpinterfaces.ui.theme.PurpleSoft
+import com.example.tpinterfaces.ui.theme.Red
 import com.example.tpinterfaces.ui.theme.YellowBackLocation
 import com.example.tpinterfaces.ui.theme.YellowIconLocation
+import com.example.tpinterfaces.ui.viewModel.HomeViewModel
 
 @Composable
 fun HomeScreen(
@@ -58,13 +73,17 @@ fun HomeScreen(
         factory = HomeViewModelFactory(
             repository = HomeRepositoryImpl()
         )
-    )
+    ),
+    onSolicitarTurno: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val brand = LocalBrand.current
 
     if (uiState.cargando) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             CircularProgressIndicator()
         }
         return
@@ -134,7 +153,8 @@ fun HomeScreen(
             acciones = uiState.acciones,
             onActionClick = {
                 viewModel.onAccionRapidaClick(it.id)
-            }
+            },
+            onSolicitarTurno = onSolicitarTurno
         )
 
         Spacer(Modifier.height(16.dp))
@@ -183,7 +203,10 @@ fun GreetingHeader(
     onNotificationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -213,7 +236,7 @@ fun GreetingHeader(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFF1F1F1))
+                    .background(BackgroundApp)
                     .clickable { onNotificationClick() },
                 contentAlignment = Alignment.Center
             ) {
@@ -327,11 +350,11 @@ fun ReminderCard(
             Text(
                 text = recordatorio.titulo,
                 fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium
             )
             Text(
                 recordatorio.descripcion,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleSmall
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
@@ -359,9 +382,19 @@ fun ReminderCard(
 fun QuickActionsGrid(
     modifier: Modifier,
     acciones: List<QuickAction>,
-    onActionClick: (QuickAction) -> Unit
+    onActionClick: (QuickAction) -> Unit,
+    onSolicitarTurno: () -> Unit = {}
 ) {
     Spacer(Modifier.height(16.dp))
+
+    ButtonPrimaryReport(onSolicitarTurno, "Solicitar Turno", ButtonBackgraundApp)
+
+    Spacer(Modifier.height(16.dp))
+
+    ButtonPrimaryReport(onSolicitarTurno, "Reportar Maltrato Animal", Red)
+
+    Spacer(Modifier.height(16.dp))
+
     Text(
         text = "Acciones Rápidas",
         style = MaterialTheme.typography.titleLarge,
@@ -434,6 +467,24 @@ private fun QuickActionItem(
 }
 
 @Composable
+fun ButtonPrimaryReport(onClick: () -> Unit, text: String, color: Color){
+    Button(
+        onClick  = { onClick() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp),
+        shape    = RoundedCornerShape(14.dp),
+        colors   = ButtonDefaults.buttonColors(containerColor = color)
+    ) {
+        Text(
+            text       = text,
+            fontSize   = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+            color      = Color.White
+        )
+    }
+}
+@Composable
 fun NewsItemCard(
     noticia: Noticia,
     onClick: () -> Unit
@@ -441,7 +492,8 @@ fun NewsItemCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 4.dp)
+            .background(PurpleSoft),
         onClick = onClick
     ) {
         Row(
@@ -476,7 +528,7 @@ fun NewsItemCard(
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = noticia.descripcion,
