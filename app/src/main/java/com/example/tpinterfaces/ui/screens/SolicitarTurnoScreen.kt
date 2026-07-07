@@ -1227,7 +1227,7 @@ private fun PasoTurnoConfirmado(
                 )
             }
         }
-        
+
         Spacer(Modifier.height(32.dp))
 
         Button(
