@@ -20,6 +20,8 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.tpinterfaces.branding.BrandCatalog
+import com.example.tpinterfaces.branding.BrandConfig
 import com.example.tpinterfaces.ui.AppDestinations
 import com.example.tpinterfaces.ui.AppNavigation
 import com.example.tpinterfaces.ui.Screen
@@ -30,7 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TpInterfacesTheme {
+            TpInterfacesTheme(brand = BrandCatalog.MORON) {
                 TpInterfacesApp()
             }
         }
