@@ -61,7 +61,8 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     onIrATurnos: () -> Unit = {},
     onIrAMascotas: () -> Unit = {},
-    onIrADatosPersonales: () -> Unit = {}
+    onIrADatosPersonales: () -> Unit = {},
+    onIrAAyudaSoporte: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -228,7 +229,12 @@ fun ProfileScreen(
                 HorizontalDivider(color = FondoPantalla)
                 MenuRow(icon = Icons.Outlined.VolunteerActivism, iconColor = Verde, label = "Hogar de tránsito")
                 HorizontalDivider(color = FondoPantalla)
-                MenuRow(icon = Icons.Outlined.Shield, iconColor = Verde, label = "Ayuda y soporte")
+                MenuRow(
+                    icon = Icons.Outlined.Shield,
+                    iconColor = Verde,
+                    label = "Ayuda y soporte",
+                    onClick = onIrAAyudaSoporte
+                )
             }
         }
 

@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.tpinterfaces.ui.screens.AgregarMascotaScreen
+import com.example.tpinterfaces.ui.screens.AyudaSoporteScreen
 import com.example.tpinterfaces.ui.screens.DatosPersonalesScreen
 import com.example.tpinterfaces.ui.screens.DetalleMascotaScreen
 import com.example.tpinterfaces.ui.screens.HomeScreen
@@ -55,12 +56,21 @@ fun AppNavigation(
                 },
                 onIrADatosPersonales = {
                     navController.navigate(Screen.DatosPersonales)
+                },
+                onIrAAyudaSoporte = {
+                    navController.navigate(Screen.AyudaSoporte)
                 }
             )
         }
 
         composable<Screen.DatosPersonales> {
             DatosPersonalesScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable<Screen.AyudaSoporte> {
+            AyudaSoporteScreen(
                 onBack = { navController.popBackStack() }
             )
         }

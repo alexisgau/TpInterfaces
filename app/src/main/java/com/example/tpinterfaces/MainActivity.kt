@@ -51,6 +51,7 @@ fun TpInterfacesApp() {
 
     val currentTab = when {
         currentDestination?.hasRoute(Screen.DatosPersonales::class) == true -> AppDestinations.PERFIL
+        currentDestination?.hasRoute(Screen.AyudaSoporte::class) == true -> AppDestinations.PERFIL
         else -> AppDestinations.entries.find { tab ->
             currentDestination?.hasRoute(tab.route::class) == true
         } ?: AppDestinations.INICIO
