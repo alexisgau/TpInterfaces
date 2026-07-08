@@ -47,8 +47,9 @@ fun TpInterfacesApp() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val mostrarNavBar = currentDestination?.hasRoute(Screen.SolicitarTurno::class) != true
-
+    val mostrarNavBar = currentDestination?.hasRoute(Screen.SolicitarTurno::class) != true &&
+            currentDestination?.hasRoute(Screen.Login::class) != true &&
+            currentDestination?.hasRoute(Screen.Registro::class) != true
     val currentTab = when {
         currentDestination?.hasRoute(Screen.ProximasCampanias::class) == true -> AppDestinations.INICIO
         currentDestination?.hasRoute(Screen.DatosPersonales::class) == true -> AppDestinations.PERFIL

@@ -11,9 +11,11 @@ import com.example.tpinterfaces.ui.screens.AyudaSoporteScreen
 import com.example.tpinterfaces.ui.screens.DatosPersonalesScreen
 import com.example.tpinterfaces.ui.screens.DetalleMascotaScreen
 import com.example.tpinterfaces.ui.screens.HomeScreen
+import com.example.tpinterfaces.ui.screens.LoginScreen
 import com.example.tpinterfaces.ui.screens.MascotaScreen
 import com.example.tpinterfaces.ui.screens.ProximasCampaniasScreen
 import com.example.tpinterfaces.ui.screens.ProfileScreen
+import com.example.tpinterfaces.ui.screens.RegistroScreen
 import com.example.tpinterfaces.ui.screens.ServiciosScreen
 import com.example.tpinterfaces.ui.screens.SolicitarTurnoScreen
 import com.example.tpinterfaces.ui.screens.TurnosScreen
@@ -25,9 +27,30 @@ fun AppNavigation(
 ) {
     NavHost(
         navController    = navController,
-        startDestination = Screen.Inicio,
+        startDestination = Screen.Login,
         modifier         = modifier
     ) {
+        composable<Screen.Login> {
+            LoginScreen(
+                onLoginExitoso = {
+                    navController.navigate(Screen.Inicio) {
+                        popUpTo(Screen.Login) { inclusive = true }
+                    }
+                },
+                onIrARegistro = { navController.navigate(Screen.Registro) }
+            )
+        }
+
+        composable<Screen.Registro> {
+            RegistroScreen(
+                onBack = { navController.popBackStack() },
+                onRegistroExitoso = {
+                    navController.navigate(Screen.Inicio) {
+                        popUpTo(Screen.Login) { inclusive = true }
+                    }
+                }
+            )
+        }
         composable<Screen.Inicio>    {
             HomeScreen(
                 onSolicitarTurno = { navController.navigate(Screen.SolicitarTurno) },
