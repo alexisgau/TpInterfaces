@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.filled.Phone
+
 
 @Composable
 fun RegistroScreen(
@@ -34,6 +36,7 @@ fun RegistroScreen(
     var confirmarPassword by remember { mutableStateOf("") }
     var error by remember { mutableStateOf<String?>(null) }
     var dni by remember { mutableStateOf("") }
+    var telefono by remember { mutableStateOf("") }
 
 
     Column(
@@ -95,7 +98,6 @@ fun RegistroScreen(
         OutlinedTextField(
             value = dni,
             onValueChange = { nuevoValor ->
-                // solo dígitos, máximo 8 caracteres (DNI argentino)
                 if (nuevoValor.length <= 8 && nuevoValor.all { it.isDigit() }) {
                     dni = nuevoValor
                     error = null
@@ -109,6 +111,26 @@ fun RegistroScreen(
             colors = camposColores(),
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = telefono,
+            onValueChange = { nuevoValor ->
+                if (nuevoValor.length <= 10 && nuevoValor.all { it.isDigit() }) {
+                    telefono = nuevoValor
+                    error = null
+                }
+            },
+            placeholder = { Text("Teléfono") },
+            leadingIcon = { Icon(Icons.Filled.Phone, contentDescription = null) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+            shape = RoundedCornerShape(16.dp),
+            colors = camposColores(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
 
 
 
@@ -154,6 +176,8 @@ fun RegistroScreen(
                         error = "Completá todos los campos"
                     dni.length < 7 ->
                         error = "Ingresá un DNI válido"
+                    telefono.length < 8 ->
+                        error = "Ingresá un teléfono válido"
                     password != confirmarPassword ->
                         error = "Las contraseñas no coinciden"
                     else -> onRegistroExitoso()
