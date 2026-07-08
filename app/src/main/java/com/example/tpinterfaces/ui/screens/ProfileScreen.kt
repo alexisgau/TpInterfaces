@@ -20,6 +20,25 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material3.MaterialTheme
+import com.example.tpinterfaces.ui.theme.TpInterfacesTheme
+import com.example.tpinterfaces.branding.BrandCatalog
+
+//@Preview(showBackground = true, widthDp = 390, heightDp = 820)
+//@Composable
+//fun ProfileScreenPreview() {
+//    TpInterfacesTheme(brand = BrandCatalog.MORON) {
+//        ProfileScreen()
+//    }
+//}
+@Preview(showBackground = true, widthDp = 390, heightDp = 820)
+@Composable
+fun ProfileScreenPreview() {
+    MaterialTheme {
+        ProfileScreen()
+    }
+}
 
 // Colores
 private val Verde = Color(0xFF4E8752)
@@ -57,8 +76,16 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                         modifier = Modifier
                             .size(72.dp)
                             .clip(CircleShape)
-                            .background(Gris)
-                    )
+                            .background(Color(0xFFD0D0D0)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "CG",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 30.sp
+                        )
+                    }
                     Column {
                         Text(
                             text = "Cristina González",
@@ -166,10 +193,6 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 HorizontalDivider(color = FondoPantalla)
                 MenuRow(icon = Icons.Outlined.VolunteerActivism, iconColor = Morado, label = "Hogar de tránsito")
                 HorizontalDivider(color = FondoPantalla)
-                MenuRow(icon = Icons.Outlined.Notifications, iconColor = Amarillo, label = "Notificaciones")
-                HorizontalDivider(color = FondoPantalla)
-                MenuRow(icon = Icons.Outlined.Settings, iconColor = Gris, label = "Configuración")
-                HorizontalDivider(color = FondoPantalla)
                 MenuRow(icon = Icons.Outlined.Shield, iconColor = Color(0xFF42A5F5), label = "Ayuda y soporte")
             }
         }
@@ -187,9 +210,9 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.AutoMirrored.Outlined.ExitToApp, contentDescription = null, tint = Gris)
+                Icon(Icons.AutoMirrored.Outlined.ExitToApp, contentDescription = null, tint = Color.Black)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Cerrar sesión", color = Gris, fontSize = 15.sp)
+                Text("Cerrar sesión", color = Color.Black, fontSize = 15.sp)
             }
         }
 

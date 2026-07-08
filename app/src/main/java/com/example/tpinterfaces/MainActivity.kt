@@ -16,10 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.tpinterfaces.branding.BrandCatalog
+import com.example.tpinterfaces.branding.BrandConfig
 import com.example.tpinterfaces.ui.AppDestinations
 import com.example.tpinterfaces.ui.AppNavigation
 import com.example.tpinterfaces.ui.Screen
@@ -29,8 +32,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            TpInterfacesTheme {
+            TpInterfacesTheme(brand = BrandCatalog.MORON) {
                 TpInterfacesApp()
             }
         }
