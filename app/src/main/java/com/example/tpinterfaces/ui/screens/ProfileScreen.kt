@@ -21,13 +21,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material3.MaterialTheme
 import com.example.tpinterfaces.ui.theme.TpInterfacesTheme
 import com.example.tpinterfaces.branding.BrandCatalog
 
+//@Preview(showBackground = true, widthDp = 390, heightDp = 820)
+//@Composable
+//fun ProfileScreenPreview() {
+//    TpInterfacesTheme(brand = BrandCatalog.MORON) {
+//        ProfileScreen()
+//    }
+//}
 @Preview(showBackground = true, widthDp = 390, heightDp = 820)
 @Composable
 fun ProfileScreenPreview() {
-    TpInterfacesTheme(brand = BrandCatalog.MORON) {
+    MaterialTheme {
         ProfileScreen()
     }
 }
