@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.tpinterfaces.ui.screens.AgregarMascotaScreen
+import com.example.tpinterfaces.ui.screens.DatosPersonalesScreen
 import com.example.tpinterfaces.ui.screens.DetalleMascotaScreen
 import com.example.tpinterfaces.ui.screens.HomeScreen
 import com.example.tpinterfaces.ui.screens.MascotaScreen
@@ -51,7 +52,16 @@ fun AppNavigation(
                         launchSingleTop = true
                         restoreState = true
                     }
+                },
+                onIrADatosPersonales = {
+                    navController.navigate(Screen.DatosPersonales)
                 }
+            )
+        }
+
+        composable<Screen.DatosPersonales> {
+            DatosPersonalesScreen(
+                onBack = { navController.popBackStack() }
             )
         }
 

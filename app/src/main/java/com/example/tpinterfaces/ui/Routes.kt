@@ -9,6 +9,7 @@ sealed class Screen {
     @Serializable data object SolicitarTurno  : Screen()
     @Serializable data object Servicios       : Screen()
     @Serializable data object Perfil          : Screen()
+    @Serializable data object DatosPersonales : Screen()
     @Serializable data class DetalleMascota(val mascotaId: String)    : Screen()
-    @Serializable
-    object AgregarMascota}
+    @Serializable data object AgregarMascota  : Screen()
+}

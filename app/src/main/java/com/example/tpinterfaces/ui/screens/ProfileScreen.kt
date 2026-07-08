@@ -60,7 +60,8 @@ private val FondoCard = Color.White
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     onIrATurnos: () -> Unit = {},
-    onIrAMascotas: () -> Unit = {}
+    onIrAMascotas: () -> Unit = {},
+    onIrADatosPersonales: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -202,7 +203,12 @@ fun ProfileScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column {
-                MenuRow(icon = Icons.Outlined.Person, iconColor = Verde, label = "Datos personales")
+                MenuRow(
+                    icon = Icons.Outlined.Person,
+                    iconColor = Verde,
+                    label = "Datos personales",
+                    onClick = onIrADatosPersonales
+                )
                 HorizontalDivider(color = FondoPantalla)
                 MenuRow(
                     icon = Icons.Outlined.Pets,
