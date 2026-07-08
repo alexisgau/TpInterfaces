@@ -21,7 +21,7 @@ class HomeRepositoryImpl : HomeRepository {
     }
 
     override suspend fun obtenerUsuario() = Usuario(
-        nombre = "Cristina",
+        nombre = "Cristina González",
         fotoUrl = "https://i.pravatar.cc/150?img=47"
     )
 
@@ -80,13 +80,15 @@ class HomeRepositoryImpl : HomeRepository {
             "noticia_1",
             "Nuevo centro de castración",
             "Se inauguró en el barrio Villa del Parque",
-            "https://www.flaticon.es/icono-gratis/castracion_14665469"
+            "https://www.flaticon.es/icono-gratis/castracion_14665469",
+            imagenRes = R.drawable.noticia_castracion
         ),
         Noticia(
             "noticia_2",
             "Campaña de adopción",
             "Este sábado en la plaza principal",
-            "https://www.pngwing.com/es/free-png-xumgk"
+            "https://www.pngwing.com/es/free-png-xumgk",
+            imagenRes = R.drawable.noticia_adopcion
         )
     )
 
@@ -96,7 +98,7 @@ class HomeRepositoryImpl : HomeRepository {
             cargando = false,
 
             usuario = Usuario(
-                nombre = "Cristina",
+                nombre = "Cristina González",
                 fotoUrl = null
             ),
 
@@ -125,7 +127,7 @@ class HomeRepositoryImpl : HomeRepository {
                 ),
                 QuickAction(
                     id = "campanias",
-                    titulo = "Proximas Campañas",
+                    titulo = "Próximas Campañas",
                     iconoRes = R.drawable.ic_campaign,
                     colorFondo = BlueSoft,
                     colorIcono = BlueIconCampaign

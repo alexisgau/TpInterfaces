@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import androidx.compose.material.icons.outlined.Phone
+import com.example.tpinterfaces.ui.theme.ButtonBackgraundApp
 
 private val ColorGreen   = Color(0xFF3A5B3D)
 private val ColorYellow  = Color(0xFFF8C453)
@@ -75,7 +76,7 @@ fun TurnosScreen(
                         .fillMaxWidth()
                         .height(52.dp),
                     shape    = RoundedCornerShape(14.dp),
-                    colors   = ButtonDefaults.buttonColors(containerColor = ColorGreen)
+                    colors   = ButtonDefaults.buttonColors(containerColor = ButtonBackgraundApp)
                 ) {
                     Text(
                         text       = "+ Solicitar nuevo turno",
@@ -183,16 +184,16 @@ private fun TurnoCard(turno: Turno) {
                     Icon(
                         Icons.Outlined.LocationOn,
                         contentDescription = null,
-                        tint = ColorGreen,
+                        tint = ButtonBackgraundApp,
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Cómo llegar", color = ColorGreen, fontSize = 13.sp)
+                    Text("Cómo llegar", color = ButtonBackgraundApp, fontSize = 13.sp)
                 }
                 Button(
                     onClick = {},
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(containerColor = ColorGreen),
+                    colors = ButtonDefaults.buttonColors(containerColor = ButtonBackgraundApp),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Icon(

@@ -66,6 +66,7 @@ import com.example.tpinterfaces.ui.theme.Red
 import com.example.tpinterfaces.ui.theme.YellowBackLocation
 import com.example.tpinterfaces.ui.theme.YellowIconLocation
 import com.example.tpinterfaces.ui.viewModel.HomeViewModel
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun HomeScreen(
@@ -92,6 +93,7 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFF5F5F0))
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
     ) {
@@ -164,7 +166,7 @@ fun HomeScreen(
             Text(
                 text = "Noticias de la comunidad",
                 style = MaterialTheme.typography.titleLarge,
-                color = GreenPrimary
+                color = Color.Black
             )
             uiState.noticias.forEach { noticia ->
                 NewsItemCard(noticia = noticia, onClick = {})
@@ -203,64 +205,90 @@ fun GreetingHeader(
     onNotificationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = Color.White),
+        elevation = androidx.compose.material3.CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = nombreUsuario,
-                    tint = Color.DarkGray
-                )
-                Spacer(Modifier.width(10.dp))
-                Column {
-                    Text(
-                        "Hola",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    Text(
-                        nombreUsuario + "\uD83D\uDC4B",
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
-            }
-
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(BackgroundApp)
-                    .clickable { onNotificationClick() },
-                contentAlignment = Alignment.Center
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(
-                    imageVector = Icons.Default.NotificationsNone,
-                    contentDescription = nombreUsuario,
-                    tint = Color.DarkGray
-                )
-                if (hayNotificaciones) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    // Foto de perfil circular
                     Box(
                         modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .size(8.dp)
+                            .size(52.dp)
                             .clip(CircleShape)
-                            .background(Color.Red)
-                    )
+                            .background(Color(0xFFD0D0D0)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = nombreUsuario.split(" ")
+                                .filter { it.isNotEmpty() }
+                                .take(2)
+                                .map { it.first() }
+                                .joinToString(""),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = Color.Black
+                        )
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            "Hola",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Gray
+                        )
+                        Text(
+                            nombreUsuario + " 👋",
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color(0xFF3A5B3D)
+                        )
+                    }
+                }
+
+                // Campana de notificaciones
+                Box(
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape)
+                            .background(Color(0xFFF5F5F0))
+                            .clickable { onNotificationClick() },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.NotificationsNone,
+                            contentDescription = "Notificaciones",
+                            tint = Color.DarkGray
+                        )
+                    }
+                    if (hayNotificaciones) {
+                        Box(
+                            modifier = Modifier
+                                .size(10.dp)
+                                .clip(CircleShape)
+                                .background(Color.Red)
+                                .align(Alignment.TopEnd)
+                        )
+                    }
                 }
             }
+            Spacer(Modifier.height(10.dp))
+            Text(
+                "¿Cómo podemos ayudarte hoy?",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.DarkGray
+            )
         }
-        Spacer(Modifier.height(10.dp))
-        Text(
-            "¿Cómo podemos ayudarte hoy?",
-            style = MaterialTheme.typography.bodyLarge
-        )
     }
 }
 
@@ -398,7 +426,7 @@ fun QuickActionsGrid(
     Text(
         text = "Acciones Rápidas",
         style = MaterialTheme.typography.titleLarge,
-        color = GreenPrimary
+        color = Color.Black
     )
     Spacer(Modifier.height(16.dp))
     Column(
@@ -461,7 +489,9 @@ private fun QuickActionItem(
 
         Text(
             text = accion.titulo,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -489,50 +519,67 @@ fun NewsItemCard(
     noticia: Noticia,
     onClick: () -> Unit
 ) {
-    Card(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .background(PurpleSoft),
-        onClick = onClick
+            .padding(vertical = 6.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(Color.White)
+            .clickable { onClick() }
     ) {
         Row(
-            modifier = Modifier
-                .padding(12.dp),
+            modifier = Modifier.padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
-            // Imagen (placeholder por ahora si no usás Coil)
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(Color.LightGray),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Newspaper,
+            if (noticia.imagenRes != null) {
+                Image(
+                    painter = painterResource(id = noticia.imagenRes),
                     contentDescription = null,
-                    tint = Color.DarkGray
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(72.dp)
+                        .clip(RoundedCornerShape(12.dp))
                 )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(72.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color.LightGray),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(Icons.Default.Newspaper, contentDescription = null, tint = Color.DarkGray)
+                }
             }
+//            Box(
+//                modifier = Modifier
+//                    .size(72.dp)
+//                    .clip(RoundedCornerShape(12.dp))
+//                    .background(Color.LightGray),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Newspaper,
+//                    contentDescription = null,
+//                    tint = Color.DarkGray,
+//                    modifier = Modifier.size(32.dp)
+//                )
+//            }
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(14.dp))
 
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = noticia.titulo,
                     style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
                 )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
+                Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = noticia.descripcion,
                     style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray,
                     maxLines = 2
                 )
             }

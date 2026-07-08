@@ -36,7 +36,24 @@ fun AppNavigation(
                 onAgregarClick = { navController.navigate(Screen.AgregarMascota) })
         }
         composable<Screen.Servicios> { ServiciosScreen() }
-        composable<Screen.Perfil>    { ProfileScreen() }
+        composable<Screen.Perfil> {
+            ProfileScreen(
+                onIrATurnos = {
+                    navController.navigate(Screen.Turnos) {
+                        popUpTo(Screen.Inicio) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                onIrAMascotas = {
+                    navController.navigate(Screen.Mascotas) {
+                        popUpTo(Screen.Inicio) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
+        }
 
         composable<Screen.Turnos> {
             TurnosScreen(

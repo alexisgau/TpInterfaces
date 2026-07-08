@@ -22,6 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import com.example.tpinterfaces.R
+import androidx.compose.foundation.clickable
 import com.example.tpinterfaces.ui.theme.TpInterfacesTheme
 import com.example.tpinterfaces.branding.BrandCatalog
 
@@ -52,7 +57,11 @@ private val FondoPantalla = Color(0xFFF5F5F0)
 private val FondoCard = Color.White
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun ProfileScreen(
+    modifier: Modifier = Modifier,
+    onIrATurnos: () -> Unit = {},
+    onIrAMascotas: () -> Unit = {}
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -140,7 +149,9 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
         Card(
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(containerColor = FondoCard),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onIrATurnos() },
             border = androidx.compose.foundation.BorderStroke(3.dp, Amarillo)
         ) {
             Row(
@@ -150,15 +161,23 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(56.dp)
-                        .clip(RoundedCornerShape(12.dp))
+                        .size(60.dp)
+                        .clip(CircleShape)
                         .background(AmarilloSuave),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("🐶", fontSize = 28.sp)
+                    Image(
+                        painter = painterResource(R.drawable.golden_rocky),
+                        contentDescription = "Rocky",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(3.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
                 }
                 Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("Recordatorio", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("Recordatorio de turno", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     Text(
                         "Rocky necesita vacuna antirrábica en 10 días.",
                         fontSize = 13.sp,
@@ -185,15 +204,25 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             Column {
                 MenuRow(icon = Icons.Outlined.Person, iconColor = Verde, label = "Datos personales")
                 HorizontalDivider(color = FondoPantalla)
-                MenuRow(icon = Icons.Outlined.Pets, iconColor = Verde, label = "Mis mascotas")
+                MenuRow(
+                    icon = Icons.Outlined.Pets,
+                    iconColor = Verde,
+                    label = "Mis mascotas",
+                    onClick = onIrAMascotas
+                )
                 HorizontalDivider(color = FondoPantalla)
-                MenuRow(icon = Icons.Outlined.CalendarMonth, iconColor = Verde, label = "Mis turnos")
+                MenuRow(
+                    icon = Icons.Outlined.CalendarMonth,
+                    iconColor = Verde,
+                    label = "Mis turnos",
+                    onClick = onIrATurnos
+                )
                 HorizontalDivider(color = FondoPantalla)
-                MenuRow(icon = Icons.Outlined.FavoriteBorder, iconColor = Color(0xFFE57373), label = "Mis solicitudes de adopción")
+                MenuRow(icon = Icons.Outlined.FavoriteBorder, iconColor = Verde, label = "Mis solicitudes de adopción")
                 HorizontalDivider(color = FondoPantalla)
-                MenuRow(icon = Icons.Outlined.VolunteerActivism, iconColor = Morado, label = "Hogar de tránsito")
+                MenuRow(icon = Icons.Outlined.VolunteerActivism, iconColor = Verde, label = "Hogar de tránsito")
                 HorizontalDivider(color = FondoPantalla)
-                MenuRow(icon = Icons.Outlined.Shield, iconColor = Color(0xFF42A5F5), label = "Ayuda y soporte")
+                MenuRow(icon = Icons.Outlined.Shield, iconColor = Verde, label = "Ayuda y soporte")
             }
         }
 
@@ -235,9 +264,12 @@ private fun StatCard(
         modifier = modifier
     ) {
         Column(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(110.dp)
+                .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.Center
         ) {
             Box(
                 modifier = Modifier
@@ -258,11 +290,13 @@ private fun StatCard(
 private fun MenuRow(
     icon: ImageVector,
     iconColor: Color,
-    label: String
+    label: String,
+    onClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { onClick() }
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)

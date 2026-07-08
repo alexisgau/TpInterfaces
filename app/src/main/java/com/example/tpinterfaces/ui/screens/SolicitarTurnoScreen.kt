@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tpinterfaces.ui.theme.ButtonBackgraundApp
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -833,7 +834,7 @@ private fun PasoConfirmacion(
                 .fillMaxWidth()
                 .height(52.dp),
             shape    = RoundedCornerShape(14.dp),
-            colors   = ButtonDefaults.buttonColors(containerColor = FlowGreen)
+            colors   = ButtonDefaults.buttonColors(containerColor = ButtonBackgraundApp)
         ) {
             Text(
                 text       = "Confirmar Turno",
@@ -889,7 +890,7 @@ private fun BotonContinuar(habilitado: Boolean, onClick: () -> Unit) {
             .height(52.dp),
         shape    = RoundedCornerShape(14.dp),
         colors   = ButtonDefaults.buttonColors(
-            containerColor         = FlowGreen,
+            containerColor         = ButtonBackgraundApp,
             disabledContainerColor = FlowGreen.copy(alpha = 0.35f)
         )
     ) {
@@ -1360,7 +1361,7 @@ private fun PasoTurnoConfirmado(
 
             colors = ButtonDefaults.buttonColors(
 
-                containerColor = FlowGreen
+                containerColor = ButtonBackgraundApp
 
             )
 

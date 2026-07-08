@@ -88,6 +88,7 @@ private val servicios = listOf(
 )
 
 private val categorias = listOf(
+    "Todos los servicios" to Icons.Outlined.GridView,
     "Centros municipales" to Icons.Outlined.AccountBalance,
     "Veterinarias privadas" to Icons.Outlined.LocalHospital,
     "Centros de castración" to Icons.Outlined.MedicalServices,
@@ -97,7 +98,7 @@ private val categorias = listOf(
 
 @Composable
 fun ServiciosScreen(modifier: Modifier = Modifier) {
-    var categoriaSeleccionada by remember { mutableStateOf("Centros municipales") }
+    var categoriaSeleccionada by remember { mutableStateOf("Todos los servicios") }
 
     Column(
         modifier = modifier

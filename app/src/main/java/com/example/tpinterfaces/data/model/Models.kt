@@ -32,7 +32,8 @@ data class Noticia(
     val id: String,
     val titulo: String,
     val descripcion: String,
-    val imagenUrl: String
+    val imagenUrl: String,
+    val imagenRes: Int? = null
 )
 
 data class Usuario(
