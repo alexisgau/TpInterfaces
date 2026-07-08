@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.sp
 val BackgroundApp = Color(0xFFF5F5F0)
 val ButtonBackgraundApp = Color(0xFF4E8752)
 
-private const val EMAIL_VALIDO = "cristina.gonzales@gmail.com"
+private const val EMAIL_VALIDO = "cristina.gonzalez@email.com"
 private const val PASSWORD_VALIDO = "1234"
 
 @Composable
