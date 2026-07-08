@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Phone
 
 
@@ -37,6 +38,7 @@ fun RegistroScreen(
     var error by remember { mutableStateOf<String?>(null) }
     var dni by remember { mutableStateOf("") }
     var telefono by remember { mutableStateOf("") }
+    var direccion by remember { mutableStateOf("") }
 
 
     Column(
@@ -130,8 +132,18 @@ fun RegistroScreen(
             colors = camposColores(),
             modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(16.dp))
 
-
+        OutlinedTextField(
+            value = direccion,
+            onValueChange = { direccion = it; error = null },
+            placeholder = { Text("Dirección") },
+            leadingIcon = { Icon(Icons.Filled.LocationOn, contentDescription = null) },
+            singleLine = true,
+            shape = RoundedCornerShape(16.dp),
+            colors = camposColores(),
+            modifier = Modifier.fillMaxWidth()
+        )
 
 
         Spacer(modifier = Modifier.height(16.dp))
