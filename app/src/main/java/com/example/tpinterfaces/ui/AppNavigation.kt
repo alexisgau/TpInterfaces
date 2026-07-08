@@ -12,6 +12,7 @@ import com.example.tpinterfaces.ui.screens.DatosPersonalesScreen
 import com.example.tpinterfaces.ui.screens.DetalleMascotaScreen
 import com.example.tpinterfaces.ui.screens.HomeScreen
 import com.example.tpinterfaces.ui.screens.MascotaScreen
+import com.example.tpinterfaces.ui.screens.ProximasCampaniasScreen
 import com.example.tpinterfaces.ui.screens.ProfileScreen
 import com.example.tpinterfaces.ui.screens.ServiciosScreen
 import com.example.tpinterfaces.ui.screens.SolicitarTurnoScreen
@@ -29,7 +30,8 @@ fun AppNavigation(
     ) {
         composable<Screen.Inicio>    {
             HomeScreen(
-                onSolicitarTurno = { navController.navigate(Screen.SolicitarTurno) }
+                onSolicitarTurno = { navController.navigate(Screen.SolicitarTurno) },
+                onProximasCampanias = { navController.navigate(Screen.ProximasCampanias) }
             )
         }
         composable<Screen.Mascotas>  {
@@ -71,6 +73,12 @@ fun AppNavigation(
 
         composable<Screen.AyudaSoporte> {
             AyudaSoporteScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable<Screen.ProximasCampanias> {
+            ProximasCampaniasScreen(
                 onBack = { navController.popBackStack() }
             )
         }

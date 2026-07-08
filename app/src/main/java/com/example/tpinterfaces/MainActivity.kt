@@ -50,6 +50,7 @@ fun TpInterfacesApp() {
     val mostrarNavBar = currentDestination?.hasRoute(Screen.SolicitarTurno::class) != true
 
     val currentTab = when {
+        currentDestination?.hasRoute(Screen.ProximasCampanias::class) == true -> AppDestinations.INICIO
         currentDestination?.hasRoute(Screen.DatosPersonales::class) == true -> AppDestinations.PERFIL
         currentDestination?.hasRoute(Screen.AyudaSoporte::class) == true -> AppDestinations.PERFIL
         else -> AppDestinations.entries.find { tab ->
@@ -84,7 +85,8 @@ fun TpInterfacesApp() {
                                     saveState = true
                                 }
                                 launchSingleTop = true
-                                restoreState    = tab != AppDestinations.PERFIL
+                                restoreState    = tab != AppDestinations.PERFIL &&
+                                    tab != AppDestinations.INICIO
                             }
                         },
                         colors = coloresDeLaBarra

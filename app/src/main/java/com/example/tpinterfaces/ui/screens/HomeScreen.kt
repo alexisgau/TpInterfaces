@@ -75,7 +75,8 @@ fun HomeScreen(
             repository = HomeRepositoryImpl()
         )
     ),
-    onSolicitarTurno: () -> Unit
+    onSolicitarTurno: () -> Unit,
+    onProximasCampanias: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val brand = LocalBrand.current
@@ -118,7 +119,10 @@ fun HomeScreen(
 
         // 3. Campaña activa
         uiState.campania?.let {
-            CampaignBannerCard(campania = it)
+            CampaignBannerCard(
+                campania = it,
+                onClick = onProximasCampanias
+            )
             Spacer(Modifier.height(20.dp))
         }
 
@@ -154,7 +158,11 @@ fun HomeScreen(
                 .padding(10.dp),
             acciones = uiState.acciones,
             onActionClick = {
-                viewModel.onAccionRapidaClick(it.id)
+                if (it.id == "campanias") {
+                    onProximasCampanias()
+                } else {
+                    viewModel.onAccionRapidaClick(it.id)
+                }
             },
             onSolicitarTurno = onSolicitarTurno
         )
@@ -295,6 +303,7 @@ fun GreetingHeader(
 @Composable
 fun CampaignBannerCard(
     campania: Campania,
+    onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -302,6 +311,7 @@ fun CampaignBannerCard(
             .fillMaxWidth()
             .height(150.dp)
             .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick)
     ) {
         Box(
             modifier = Modifier
