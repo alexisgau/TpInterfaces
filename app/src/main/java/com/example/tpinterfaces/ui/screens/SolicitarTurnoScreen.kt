@@ -83,8 +83,12 @@ fun SolicitarTurnoScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            TopBar(titulo = "Solicitar Turno", onBack = ::irAtras)
-            StepIndicator(pasoActual = paso, totalPasos = 5)
+            TopBar(
+                titulo = "Solicitar Turno",
+                onBack = ::irAtras,
+                mostrarVolver = paso != 6
+            )
+            StepIndicator(pasoActual = paso, totalPasos = 6)
 
             if (paso > 1 && paso < 5) {
                 ResumenContexto(
@@ -150,9 +154,18 @@ fun SolicitarTurnoScreen(
                                 horaSeleccionada!!
                             )
                             TurnosRepository.agregarTurno(nuevo)
-                            onConfirmar()
+                            paso = 6
+                            //onConfirmar()
                         },
                         onVolver = { paso = 4 }
+                    )
+                    6 -> PasoTurnoConfirmado(
+                        mascota    = mascotaSeleccionada!!,
+                        servicio   = servicioSeleccionado!!,
+                        centro     = centroSeleccionado!!,
+                        fecha      = fechaSeleccionada!!,
+                        hora       = horaSeleccionada!!,
+                        onFinalizar = onConfirmar
                     )
                 }
             }
@@ -232,21 +245,23 @@ private fun ChipResumen(icono: ImageVector, texto: String) {
 }
 
 @Composable
-private fun TopBar(titulo: String, onBack: () -> Unit) {
+private fun TopBar(titulo: String, onBack: () -> Unit, mostrarVolver: Boolean = true) {
     Row(
         modifier          = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = onBack) {
-            Icon(
-                imageVector        = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = "Volver",
-                tint               = FlowText
-            )
+        if (mostrarVolver) {
+            IconButton(onClick = onBack) {
+                Icon(
+                    imageVector        = Icons.AutoMirrored.Outlined.ArrowBack,
+                    contentDescription = "Volver",
+                    tint               = FlowText
+                )
+            }
+            Spacer(Modifier.width(4.dp))
         }
-        Spacer(Modifier.width(4.dp))
         Text(
             text       = titulo,
             fontSize   = 20.sp,
@@ -899,4 +914,476 @@ private fun SolicitarTurnoPreview() {
     MaterialTheme {
         SolicitarTurnoScreen(onBack = {}, onConfirmar = {})
     }
+}
+
+@Composable
+
+private fun ResumenSeleccion(
+
+    mascota: Mascota?,
+
+    servicio: Servicio?,
+
+    centro: Centro?,
+
+    fecha: LocalDate?,
+
+    hora: LocalTime?
+
+) {
+
+    Card(
+
+        modifier = Modifier
+
+            .fillMaxWidth()
+
+            .padding(bottom = 16.dp),
+
+        shape = RoundedCornerShape(14.dp),
+
+        colors = CardDefaults.cardColors(containerColor = FlowGreenLt)
+
+    ) {
+
+        Column(
+
+            modifier = Modifier.padding(12.dp)
+
+        ) {
+
+
+
+            Text(
+
+                text = "Resumen",
+
+                fontWeight = FontWeight.Bold,
+
+                color = FlowGreen
+
+            )
+
+
+
+            Spacer(Modifier.height(8.dp))
+
+
+
+            mascota?.let {
+
+                Row(
+
+                    verticalAlignment = Alignment.CenterVertically
+
+                ) {
+
+                    Icon(
+
+                        imageVector = Icons.Outlined.Pets,
+
+                        contentDescription = null,
+
+                        tint = FlowGreen,
+
+                        modifier = Modifier.size(18.dp)
+
+                    )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    Text("${it.nombre}")
+
+                }
+
+            }
+
+
+
+            servicio?.let {
+
+                Spacer(Modifier.height(6.dp))
+
+                Row(
+
+                    verticalAlignment = Alignment.CenterVertically
+
+                ) {
+
+                    Icon(
+
+                        imageVector = Icons.Outlined.MedicalServices,
+
+                        contentDescription = null,
+
+                        tint = FlowGreen,
+
+                        modifier = Modifier.size(18.dp)
+
+                    )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    Text("${it.nombre}")
+
+                }
+
+            }
+
+
+
+            centro?.let {
+
+                Spacer(Modifier.height(6.dp))
+
+                Row(
+
+                    verticalAlignment = Alignment.CenterVertically
+
+                ) {
+
+                    Icon(
+
+                        imageVector = Icons.Outlined.LocationOn,
+
+                        contentDescription = null,
+
+                        tint = FlowGreen,
+
+                        modifier = Modifier.size(18.dp)
+
+                    )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    Text("${it.nombre}")
+
+                }
+
+            }
+
+
+
+            fecha?.let {
+
+                Spacer(Modifier.height(6.dp))
+
+                Row(
+
+                    verticalAlignment = Alignment.CenterVertically
+
+                ) {
+
+                    Icon(
+
+                        imageVector = Icons.Outlined.CalendarMonth,
+
+                        contentDescription = null,
+
+                        tint = FlowGreen,
+
+                        modifier = Modifier.size(18.dp)
+
+                    )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    Text("${it.format(confirmDateFmt)}")
+
+                }
+
+            }
+
+
+
+            hora?.let {
+
+                Spacer(Modifier.height(6.dp))
+
+                Row(
+
+                    verticalAlignment = Alignment.CenterVertically
+
+                ) {
+
+                    Icon(
+
+                        imageVector = Icons.Outlined.Schedule,
+
+                        contentDescription = null,
+
+                        tint = FlowGreen,
+
+                        modifier = Modifier.size(18.dp)
+
+                    )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    Text("${it.format(timeFmt)}")
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+@Composable
+
+private fun PasoTurnoConfirmado(
+
+    mascota: Mascota,
+
+    servicio: Servicio,
+
+    centro: Centro,
+
+    fecha: LocalDate,
+
+    hora: LocalTime,
+
+    onFinalizar: () -> Unit
+
+) {
+
+
+
+    Column(
+
+        modifier = Modifier
+
+            .fillMaxSize()
+
+            .verticalScroll(rememberScrollState())
+
+            .padding(16.dp),
+
+        horizontalAlignment = Alignment.CenterHorizontally
+
+    ) {
+
+
+
+        Spacer(Modifier.height(12.dp))
+
+
+
+        Box(
+
+            modifier = Modifier
+
+                .size(72.dp)
+
+                .clip(CircleShape)
+
+                .background(FlowGreenLt),
+
+            contentAlignment = Alignment.Center
+
+        ) {
+
+            Icon(
+
+                imageVector = Icons.Outlined.CheckCircle,
+
+                contentDescription = null,
+
+                tint = FlowGreen,
+
+                modifier = Modifier.size(40.dp)
+
+            )
+
+        }
+
+
+
+        Spacer(Modifier.height(20.dp))
+
+
+
+        Text(
+
+            text = "¡Turno confirmado!",
+
+            fontSize = 22.sp,
+
+            fontWeight = FontWeight.Bold,
+
+            color = FlowText
+
+        )
+
+
+
+        Spacer(Modifier.height(8.dp))
+
+
+
+        Text(
+
+            text = "Tu turno fue registrado correctamente.",
+
+            fontSize = 14.sp,
+
+            color = FlowSubtext,
+
+            textAlign = TextAlign.Center
+
+        )
+
+
+
+        Spacer(Modifier.height(24.dp))
+
+
+
+        Card(
+
+            modifier = Modifier.fillMaxWidth(),
+
+            shape = RoundedCornerShape(16.dp),
+
+            colors = CardDefaults.cardColors(containerColor = FlowCard),
+
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+
+        ) {
+
+            Column(modifier = Modifier.padding(4.dp)) {
+
+
+
+                ConfirmRow(
+
+                    icono = Icons.Outlined.CalendarMonth,
+
+                    label = "Fecha y hora",
+
+                    valor = "${fecha.format(confirmDateFmt)} · ${hora.format(timeFmt)}"
+
+                )
+
+
+
+                HorizontalDivider(
+
+                    color = FlowSurface,
+
+                    thickness = 1.dp
+
+                )
+
+
+
+                ConfirmRow(
+
+                    icono = Icons.Outlined.LocationOn,
+
+                    label = "Centro",
+
+                    valor = centro.nombre
+
+                )
+
+
+
+                HorizontalDivider(
+
+                    color = FlowSurface,
+
+                    thickness = 1.dp
+
+                )
+
+
+
+                ConfirmRow(
+
+                    icono = Icons.Outlined.MedicalServices,
+
+                    label = "Servicio",
+
+                    valor = servicio.nombre
+
+                )
+
+
+
+                HorizontalDivider(
+
+                    color = FlowSurface,
+
+                    thickness = 1.dp
+
+                )
+
+
+
+                ConfirmRow(
+
+                    icono = Icons.Outlined.Pets,
+
+                    label = "Mascota",
+
+                    valor = mascota.nombre
+
+                )
+
+            }
+
+        }
+
+
+
+        Spacer(Modifier.height(32.dp))
+
+
+
+        Button(
+
+            onClick = onFinalizar,
+
+            modifier = Modifier
+
+                .fillMaxWidth()
+
+                .height(52.dp),
+
+            shape = RoundedCornerShape(14.dp),
+
+            colors = ButtonDefaults.buttonColors(
+
+                containerColor = FlowGreen
+
+            )
+
+        ) {
+
+            Text(
+
+                "Ver mis turnos",
+
+                color = Color.White,
+
+                fontSize = 16.sp,
+
+                fontWeight = FontWeight.SemiBold
+
+            )
+
+        }
+
+
+
+        Spacer(Modifier.height(12.dp))
+
+    }
+
 }
